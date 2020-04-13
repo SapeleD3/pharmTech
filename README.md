@@ -98,6 +98,17 @@ npm install
 MNEMONIC='**** ****** **** ****'
 ```
 <!-- USAGE EXAMPLES -->
+
+To start Client side mobile App run with android device connected and USB debug active in developer settings
+```sh
+npm run android 
+```
+
+On the login screen use credentials to access account with etheruem for gas charges.. Hence mnemonics required in the .env file
+Email: oyin@gmail.com
+Password: slugterra
+
+
 <!-- CONTRIBUTING -->
 
 ## Contributing
@@ -117,6 +128,8 @@ Contributions are what make the open source community such an amazing place to b
 Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- ACKNOWLEDGEMENTS -->
+
+
 
 ## Acknowledgements
 
