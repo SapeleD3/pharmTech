@@ -9,12 +9,12 @@ const SeachBar = ({term, onTermChange, onTermSubmit, placeholder}) => {
       <Icon style={styles.iconStyle} name="search" size={25} color="#03fcc2" />
       <TextInput
         style={styles.inputStyle}
-        // value={term}
-        // onChangeText={newTerm => onTermChange(newTerm)}
+        value={term}
+        onChangeText={newTerm => onTermChange(newTerm)}
         placeholder={placeholder}
         autoCapitalize="none"
         autoCorrect={false}
-        // onEndEditing={() => onTermSubmit()}
+        onEndEditing={() => onTermSubmit()}
       />
     </View>
   );

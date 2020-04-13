@@ -12,6 +12,10 @@ const categorySchema = new Schema({
         type: Number,
         required: true,
     },
+    date: {
+        type: Date,
+        default: new Date().toISOString()
+    }
 })
 
 const Category = mongoose.model('Category', categorySchema)

@@ -30,7 +30,7 @@ router.post('/', authGaurd, async (req, res) => {
         drug = new Drugs({
             _id: new mongoose.Types.ObjectId(),
             drugsName: content,
-            categoryName,
+            categoryName: categoryName.toLowerCase(),
         })
         await drug.save()
         await Category.updateOne({categoryName}, { $set: { noOfDrugsInCategory: cats.noOfDrugsInCategory + 1 } })
@@ -59,7 +59,7 @@ router.get('/', async (req, res) => {
             accounts: accounts[0],
             drugCount,
             drugs,
-            mongoCategories: drug
+            mongoDrugs: drug
         })
     } catch (err) {
         console.log(err)

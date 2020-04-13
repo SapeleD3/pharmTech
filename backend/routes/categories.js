@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Account } = require('../model/account');
+const { Drugs } = require('../model/drugs');
 const { Category } = require('../model/category')
 const authGaurd = require('../util/authGaurd');
 const mongoose = require('mongoose');
@@ -62,6 +62,34 @@ router.get('/', async (req, res) => {
     } catch (err) {
         console.log(err)
         return errorMessage.INTERNAL_SERVER_ERROR(res);
+    }
+})
+
+router.get("/search", (req, res, next) => {
+    const q = req.query.q;
+
+    Category.find({
+        categoryName : {
+            $regex: new RegExp(q)
+        }
+    }, {
+    _id: 0,
+    __v: 0
+    }, (err, data) => res.json(data)).limit(10)
+})
+
+router.get("/allDrugs/:categoryName", async (req, res) => {
+    const categoryName = req.params.categoryName.toLowerCase()
+    try {
+        const drugs = await Drugs.find({ categoryName: categoryName})
+        if(drugs.length >= 1){
+            return successMessage.OK(res, drugs)
+        } else {
+            return errorMessage.BAD_REQUEST(res, "No drug was Found for this category")
+        }
+    } catch (err) {
+        console.log(err)
+        return errorMessage.INTERNAL_SERVER_ERROR(res)
     }
 })
 

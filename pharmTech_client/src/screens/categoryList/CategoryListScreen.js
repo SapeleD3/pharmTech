@@ -1,20 +1,43 @@
+import {ADD_CAT, GET_CAT} from './categoryActionTypes';
 import {Button, Card, Input, Text} from 'react-native-elements';
 import {
+  FlatList,
   Modal,
   StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {baseApi, getCategoryCall} from '../../api/pharm_tech_api';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Feather';
-import SearchBar from '../Components/SeachBar';
-import Spacer from '../Components/Spacer';
+import SearchBar from '../../Components/SeachBar';
+import Spacer from '../../Components/Spacer';
 
 const CategoryListScreen = () => {
+  const catState = useSelector(state => state.category);
   const [visibility, setVisibility] = useState(false);
   const [visibility2, setVisibility2] = useState(false);
+  const [drugs, setDrugs] = useState([]);
+  const [cat, setCat] = useState('');
+  const dispatch = useDispatch();
+
+  const getDrugByCat = async catName => {
+    try {
+      const drugs = await baseApi.get(`/category/allDrugs/${catName}`);
+      setDrugs(drugs.data.data);
+    } catch (err) {
+      console.log('the error ', err.response.data);
+    }
+  };
+
+  useEffect(() => {
+    dispatch({type: GET_CAT});
+    getCategoryCall();
+  }, []);
+
   return (
     <View style={styles.bckg}>
       <Spacer />
@@ -30,11 +53,15 @@ const CategoryListScreen = () => {
               placeholder="Category Name"
               autoCorrect={false}
               style={styles.inputStyle}
-              // value={email}
-              // onChangeText={setEmail}
+              value={cat}
+              onChangeText={setCat}
             />
             <View style={{flexDirection: 'row'}}>
               <Button
+                onPress={() => {
+                  dispatch({type: ADD_CAT, payload: {content: cat}});
+                }}
+                loading={catState.loading}
                 buttonStyle={{
                   marginTop: 10,
                   marginHorizontal: 5,
@@ -61,17 +88,26 @@ const CategoryListScreen = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text h4>LIST OF DRUGS IN CATEGORY</Text>
-            <Card containerStyle={{width: 300}}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  letterSpacing: 1,
-                  marginBottom: 10,
-                }}>
-                Hallucinogen
-              </Text>
-            </Card>
+            <FlatList
+              showsVirticalScrollIndicator={false}
+              data={drugs}
+              keyExtractor={drug => drug._id}
+              renderItem={({item}) => {
+                return (
+                  <Card containerStyle={{width: 250}}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        letterSpacing: 1,
+                        marginBottom: 10,
+                      }}>
+                      {item.drugsName}
+                    </Text>
+                  </Card>
+                );
+              }}
+            />
             <Button
               buttonStyle={{
                 marginTop: 10,
@@ -97,15 +133,29 @@ const CategoryListScreen = () => {
         title="Add Category"
       />
       <Text style={{marginHorizontal: 20, fontSize: 18, color: 'grey'}}>
-        Total Categories Created: 1
+        Total Categories Created: {catState.category.length}
       </Text>
-      <TouchableOpacity onPress={() => setVisibility2(true)}>
-        <Card>
-          <Text style={{fontSize: 18, fontWeight: 'bold', letterSpacing: 1}}>
-            Hallucinogen
-          </Text>
-        </Card>
-      </TouchableOpacity>
+      <FlatList
+        showsVirticalScrollIndicator={false}
+        data={catState.category}
+        keyExtractor={cat => cat.id}
+        renderItem={({item}) => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                getDrugByCat(item.catName);
+                setVisibility2(true);
+              }}>
+              <Card>
+                <Text
+                  style={{fontSize: 18, fontWeight: 'bold', letterSpacing: 1}}>
+                  {item.catName}
+                </Text>
+              </Card>
+            </TouchableOpacity>
+          );
+        }}
+      />
     </View>
   );
 };
@@ -134,10 +184,10 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    margin: 15,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    padding: 25,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {

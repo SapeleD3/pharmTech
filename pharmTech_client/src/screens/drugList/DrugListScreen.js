@@ -1,14 +1,31 @@
+import {ADD_DRUG, GET_DRUG} from './drugActionType';
 import {Button, Card, Text} from 'react-native-elements';
-import {Modal, Picker, StyleSheet, TextInput, View} from 'react-native';
-import React, {useState} from 'react';
+import {FlatList, Modal, StyleSheet, TextInput, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
+import {GET_CAT} from '../categoryList/categoryActionTypes';
 import Icon from 'react-native-vector-icons/Feather';
-import SearchBar from '../Components/SeachBar';
-import Spacer from '../Components/Spacer';
+import {Picker} from '@react-native-community/picker';
+import SearchBar from '../../Components/SeachBar';
+import Spacer from '../../Components/Spacer';
+import {getdrugCall} from '../../api/pharm_tech_api';
 
 const DrugListScreen = () => {
   const [visibility, setVisibility] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
+  const drugState = useSelector(state => state.drug);
+  const catState = useSelector(state => state.category);
+  const [drug, setdrug] = useState('');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({type: GET_DRUG});
+    dispatch({type: GET_CAT});
+    getdrugCall();
+  }, []);
+
+  console.log(drugState);
   return (
     <View style={styles.bckg}>
       <Spacer />
@@ -30,18 +47,32 @@ const DrugListScreen = () => {
                 value=""
                 sty
               />
-              <Picker.Item label="JavaScript" value="js" />
+              {catState.category &&
+                catState.category.map(item => (
+                  <Picker.Item
+                    key={item.id}
+                    label={item.catName}
+                    value={item.catName}
+                  />
+                ))}
             </Picker>
             <TextInput
               autoCapitalize="none"
               placeholder="Drug Name"
               autoCorrect={false}
               style={styles.inputStyle}
-              // value={email}
-              // onChangeText={setEmail}
+              value={drug}
+              onChangeText={setdrug}
             />
             <View style={{flexDirection: 'row'}}>
               <Button
+                onPress={() => {
+                  dispatch({
+                    type: ADD_DRUG,
+                    payload: {content: drug, categoryName: selectedValue},
+                  });
+                }}
+                loading={drugState.loading}
                 buttonStyle={{
                   marginTop: 10,
                   marginHorizontal: 5,
@@ -77,13 +108,27 @@ const DrugListScreen = () => {
         title="Add Drug"
       />
       <Text style={{marginHorizontal: 20, fontSize: 18, color: 'grey'}}>
-        Total Drugs Created: 1
+        Total Drugs Created: {drugState.drug.length}
       </Text>
-      <Card>
-        <Text style={{fontSize: 18, fontWeight: 'bold', letterSpacing: 1}}>
-          Hallucinogen
-        </Text>
-      </Card>
+      <FlatList
+        showsVirticalScrollIndicator={false}
+        data={drugState.drug}
+        keyExtractor={drug => drug.id}
+        renderItem={({item}) => {
+          return (
+            <Card>
+              <Text
+                style={{fontSize: 18, fontWeight: 'bold', letterSpacing: 1}}>
+                Drug: {item.drugName}
+              </Text>
+              <Text
+                style={{fontSize: 18, fontWeight: 'bold', letterSpacing: 1}}>
+                Caegory: {item.catName}
+              </Text>
+            </Card>
+          );
+        }}
+      />
     </View>
   );
 };

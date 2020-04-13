@@ -33,9 +33,8 @@ export default Cards;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
-    height: 150,
-    width: 190,
-    margin: 20,
+    width: 150,
+    margin: 10,
     backgroundColor: 'rgb(3, 252, 194)',
   },
 });

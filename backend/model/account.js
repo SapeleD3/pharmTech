@@ -16,6 +16,10 @@ const accountSchema = new Schema({
         type: Object,
         required: true,
     },
+    date: {
+        type: Date,
+        default: new Date().toISOString()
+    }
 })
 
 const Account = mongoose.model('Account', accountSchema)
