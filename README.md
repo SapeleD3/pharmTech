@@ -55,8 +55,6 @@ With JavaScript and Solidity as the Programming languages for Both Smart Contrac
 - [express](https://www.npmjs.com/package/express)
 - [http-status-codes](https://www.npmjs.com/package/http-status-codes)
 - [lodash](https://www.npmjs.com/package/lodash)
-- [jest](https://www.npmjs.com/package/jest)
-- [supertest](https://www.npmjs.com/package/supertest)
 
 <!-- GETTING STARTED -->
 
