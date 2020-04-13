@@ -7,7 +7,7 @@ Document your applications API and general usage
 <p align="center">
   <a href="https://github.com/SapeleD3/pharmTech">
   
-  <h3 align="center"><strong>Backend Code »</strong></h3>
+  <h3 align="center"><strong>PharmTech »</strong></h3>
   </a>
 
 
