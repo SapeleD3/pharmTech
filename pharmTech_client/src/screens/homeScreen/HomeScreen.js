@@ -1,5 +1,4 @@
 import {
-  Button,
   FlatList,
   ScrollView,
   StyleSheet,
@@ -12,7 +11,6 @@ import {getCategoryCall, getdrugCall} from '../../api/pharm_tech_api';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {AUTH_LOGOUT} from '../../Components/auth/authActionTypes';
-import AntIcon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
 import Cards from '../../Components/Cards';
 import {GET_CAT} from '../categoryList/categoryActionTypes';
@@ -28,9 +26,9 @@ const HomeScreen = ({navigation}) => {
   const [drugs, setDrugs] = useState([]);
 
   const dispatch = useDispatch();
-  const authState = useSelector(state => state.auth);
+  const authState = useSelector((state) => state.auth);
 
-  const search = async val => {
+  const search = async (val) => {
     if (val === '') {
       return setDrugs([]);
     }
@@ -101,7 +99,7 @@ const HomeScreen = ({navigation}) => {
               horizontal
               showsVirticalScrollIndicator={false}
               data={drugs}
-              keyExtractor={drugs => drugs.date}
+              keyExtractor={(drugs) => drugs.date}
               renderItem={({item}) => {
                 return <Text>{item.categoryName}</Text>;
               }}
@@ -112,7 +110,7 @@ const HomeScreen = ({navigation}) => {
           placeholder="Search Drugs"
           term={term}
           onTermSubmit={() => search(term)}
-          onTermChange={newTerm => {
+          onTermChange={(newTerm) => {
             setTerm(newTerm);
             search(newTerm);
           }}
@@ -172,7 +170,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 50,
     marginHorizontal: 10,
-    flexDirection: 'row',
     marginTop: 15,
   },
   cards: {
