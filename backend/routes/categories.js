@@ -4,7 +4,6 @@ const { Drugs } = require('../model/drugs');
 const { Category } = require('../model/category');
 const authGaurd = require('../util/authGaurd');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const InfuraHelper = require('../util/infura');
 
 const {
