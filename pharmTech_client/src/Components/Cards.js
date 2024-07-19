@@ -1,5 +1,5 @@
-import {Card, Text, withTheme} from 'react-native-elements';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Card, Text} from 'react-native-elements';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';

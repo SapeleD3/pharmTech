@@ -2,11 +2,9 @@ import {
   AUTH_LOGOUT_USER,
   AUTH_USER,
 } from './src/Components/auth/authActionTypes';
-import {Button, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import React, {useEffect} from 'react';
-
-import AntIcon from 'react-native-vector-icons/AntDesign';
+import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import CategoryListScreen from './src/screens/categoryList/CategoryListScreen';
 import DrugListScreen from './src/screens/drugList/DrugListScreen';
@@ -23,7 +21,7 @@ import store from './src/redux/store';
 
 const Stack = createStackNavigator();
 
-AsyncStorage.getItem('jwtToken').then(token => {
+AsyncStorage.getItem('jwtToken').then((token) => {
   console.log('call time');
   if (token) {
     setAuthToken(token);
@@ -40,8 +38,8 @@ AsyncStorage.getItem('jwtToken').then(token => {
 });
 
 const App = () => {
-  const uthstate = useSelector(state => state.auth);
-  const state = useSelector(state => state);
+  const uthstate = useSelector((state) => state.auth);
+  const state = useSelector((state) => state);
   console.log('General state', state);
 
   return (
@@ -53,7 +51,7 @@ const App = () => {
             component={HomeScreen}
             options={{
               headerTintColor: 'rgb(3, 252, 194)',
-              headerTitle: props => (
+              headerTitle: (props) => (
                 <Text
                   style={{
                     flex: 1,
@@ -70,7 +68,7 @@ const App = () => {
           <Stack.Screen
             options={{
               headerTintColor: 'rgb(3, 252, 194)',
-              headerTitle: props => (
+              headerTitle: (props) => (
                 <Text
                   style={{
                     flex: 1,
@@ -89,7 +87,7 @@ const App = () => {
           <Stack.Screen
             options={{
               headerTintColor: 'rgb(3, 252, 194)',
-              headerTitle: props => (
+              headerTitle: (props) => (
                 <Text
                   style={{
                     flex: 1,

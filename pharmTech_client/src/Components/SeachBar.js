@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, TextInput, View} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
 import React from 'react';
@@ -10,7 +10,7 @@ const SeachBar = ({term, onTermChange, onTermSubmit, placeholder}) => {
       <TextInput
         style={styles.inputStyle}
         value={term}
-        onChangeText={newTerm => onTermChange(newTerm)}
+        onChangeText={(newTerm) => onTermChange(newTerm)}
         placeholder={placeholder}
         autoCapitalize="none"
         autoCorrect={false}
